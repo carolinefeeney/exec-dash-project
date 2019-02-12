@@ -16,7 +16,16 @@ import matplotlib as plt
 csv_filename = "sales-201710.csv" #TODO allow user to specify with FILEPATH
 # ... adapted from: https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/master/notes/python/modules/os.md#file-operations
 csv_filepath = os.path.join(os.path.dirname(__file__), "data", csv_filename)  #> reference a file in the data directory
+# ... this and other pandas operations adapted from: https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/master/notes/python/packages/pandas.md
 csv_data = csv_data = pandas.read_csv(csv_filepath) #> read CSV into pandas dataframe object
+
+#
+# CALCULATIONS
+#
+
+monthly_total = csv_data["sales price"].sum() #> from the csv data, sum the sales prices to get the monthly total
+#print(monthly_total)
+
 
 
 print("-----------------------")
