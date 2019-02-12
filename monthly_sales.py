@@ -1,14 +1,23 @@
 # monthly_sales.py
 
-# TODO: import some modules and/or packages here
-
 import os
+import operator
 import csv
 import pandas
 import matplotlib as plt
 
 
-# TODO: write some Python code here to produce the desired functionality...
+#
+# INFO INPUTS
+#
+
+#TODO format as USD
+
+csv_filename = "sales-201710.csv" #TODO allow user to specify with FILEPATH
+# ... adapted from: https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/master/notes/python/modules/os.md#file-operations
+csv_filepath = os.path.join(os.path.dirname(__file__), "data", csv_filename)  #> reference a file in the data directory
+csv_data = csv_data = pandas.read_csv(csv_filepath) #> read CSV into pandas dataframe object
+
 
 print("-----------------------")
 print("MONTH: March 2018")
