@@ -4,7 +4,7 @@ import os
 import operator
 import csv
 import pandas
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 
 #
@@ -82,7 +82,9 @@ print("CRUNCHING THE DATA...")
 # > this way is more complicated than making a user-defined function
 
 print("-----------------------")
+#...  from https://github.com/s2t2/exec-dash-starter-py/commit/1bf69cc8c8c4d26d8aa265b4fc984cd01ad894ff
 print(f"TOTAL MONTHLY SALES: {to_usd(monthly_total)}")
+
 
 
 print("-----------------------")
@@ -96,3 +98,19 @@ for d in top_sellers:
 
 print("-----------------------")
 print("VISUALIZING THE DATA...")
+
+#...adapted from https://github.com/carolinefeeney/sales-reporting/commit/fae68cf4805345d23ae1f884501e021fa01ae2a3
+chart_title = "Top Selling Products (March 2018)"  # TODO: get month and year
+
+sorted_products = []
+sorted_sales = []
+
+for d in top_sellers:
+    sorted_products.append(d["name"])
+    sorted_sales.append(d["monthly_sales"])
+
+plt.bar(sorted_products, sorted_sales)
+plt.title(chart_title)
+plt.xlabel("Product")
+plt.ylabel("Monthly Sales (USD)")
+plt.show()
