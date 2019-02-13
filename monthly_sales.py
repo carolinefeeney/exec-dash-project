@@ -59,27 +59,33 @@ for product_name in unique_product_names:
 
 # Now that we have monthly sales for each unique product, we need to sort in descending order our list
 
-#
-# OUTPUTS
-#
-
 #top_sellers.reverse()) reverse function won't work because we want to sort descending by referencing one part of the list, monthly sales
 #... adapted from https://docs.python.org/3/howto/sorting.html
 top_sellers = sorted(top_sellers, key=operator.itemgetter("monthly_sales"), reverse=True)
 #print(top_sellers) this gives us the right info but not formatted correctly
 
-
-
-
+#
+# OUTPUTS
+#
 
 print("-----------------------")
-print("MONTH: March 2018")
+print("MONTH: March 2018") #TODO get month and year FROM THE FILE
 
 print("-----------------------")
 print("CRUNCHING THE DATA...")
 
+# ... USD adapted from https://github.com/s2t2/shopping-cart-screencast/blob/30c2a2873a796b8766e9b9ae57a2764725ccc793/shopping_cart.py#L56-L59
+#def to_usd(my_price):
+   # return "${0:,.2f}".format(my_price)
+
+# ... USD adapted from https://github.com/carolinefeeney/shopping-cart-project/blob/master/shopping_cart.py
+monthly_total_usd = "${0:.2f}".format(monthly_total)
+print("Subtotal: " + str(monthly_total_usd)) 
+
+
 print("-----------------------")
-print("TOTAL MONTHLY SALES: $12,000.71")
+print("TOTAL MONTHLY SALES: " + str(monthly_total_usd))
+
 
 print("-----------------------")
 print("TOP SELLING PRODUCTS:")
