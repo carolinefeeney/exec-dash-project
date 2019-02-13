@@ -39,7 +39,7 @@ unique_product_names = product_names.unique()
 #> this is  'numpy.ndarray' > google how to convert to a list
 unique_product_names = unique_product_names.tolist() # convert numpy.ndarray to list
 
-#Now that we have unique products, find total sales per product
+# Now that we have unique products, find total sales per product
 
 top_sellers = [] #> empty list so that we can customize
 
@@ -53,9 +53,20 @@ for product_name in unique_product_names:
     #now adding in product name and monthly sales
     top_sellers.append(
         {"name": product_name, "monthly_sales": product_monthly_sales})
-    print(top_sellers)
+    #print(top_sellers)
+    #print(type(top_sellers)) > it is a list!
+    #> this gives us each unique product and their monthly sales
 
+# Now that we have monthly sales for each unique product, we need to sort in descending order our list
 
+#
+# OUTPUTS
+#
+
+#top_sellers.reverse()) reverse function won't work because we want to sort descending by referencing one part of the list, monthly sales
+#... adapted from https://docs.python.org/3/howto/sorting.html
+top_sellers = sorted(top_sellers, key=operator.itemgetter("monthly_sales"), reverse=True)
+#print(top_sellers) this gives us the right info but not formatted correctly
 
 
 
