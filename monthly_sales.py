@@ -11,7 +11,9 @@ import matplotlib as plt
 # INFO INPUTS
 #
 
-#TODO format as USD
+# ... USD adapted from https://github.com/s2t2/shopping-cart-screencast/blob/30c2a2873a796b8766e9b9ae57a2764725ccc793/shopping_cart.py#L56-L59
+def to_usd(my_price):
+    return "${0:,.2f}".format(my_price)
 
 csv_filename = "sales-201710.csv" #TODO allow user to specify with FILEPATH
 # ... adapted from: https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/master/notes/python/modules/os.md#file-operations
@@ -74,24 +76,23 @@ print("MONTH: March 2018") #TODO get month and year FROM THE FILE
 print("-----------------------")
 print("CRUNCHING THE DATA...")
 
-# ... USD adapted from https://github.com/s2t2/shopping-cart-screencast/blob/30c2a2873a796b8766e9b9ae57a2764725ccc793/shopping_cart.py#L56-L59
-#def to_usd(my_price):
-   # return "${0:,.2f}".format(my_price)
 
-# ... USD adapted from https://github.com/carolinefeeney/shopping-cart-project/blob/master/shopping_cart.py
-monthly_total_usd = "${0:.2f}".format(monthly_total)
-print("Subtotal: " + str(monthly_total_usd)) 
-
+#monthly_total_usd = "${0:.2f}".format(monthly_total)
+#print("Subtotal: " + str(monthly_total_usd)) 
+# > this way is more complicated than making a user-defined function
 
 print("-----------------------")
-print("TOTAL MONTHLY SALES: " + str(monthly_total_usd))
+print(f"TOTAL MONTHLY SALES: {to_usd(monthly_total)}")
 
 
 print("-----------------------")
 print("TOP SELLING PRODUCTS:")
-print("  1) Button-Down Shirt: $6,960.35")
-print("  2) Super Soft Hoodie: $1,875.00")
-print("  3) etc.")
+
+#...  from https://github.com/s2t2/exec-dash-starter-py/commit/1bf69cc8c8c4d26d8aa265b4fc984cd01ad894ff
+rank = 1 #we are defining a variable here to use in our list printing
+for d in top_sellers:
+    print("  " + str(rank) + ") " + d["name"] + ": " +  to_usd(d["monthly_sales"]))
+    rank = rank + 1
 
 print("-----------------------")
 print("VISUALIZING THE DATA...")
