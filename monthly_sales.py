@@ -26,6 +26,8 @@ csv_data = csv_data = pandas.read_csv(csv_filepath) #> read CSV into pandas data
 monthly_total = csv_data["sales price"].sum() #> from the dataframe we just made, sum the sales prices to get the monthly total
 #print(monthly_total)
 
+# Find unique products
+
 # ... adapted from https://github.com/s2t2/exec-dash-starter-py/commit/f790f124895db77920e37655c91e1e5a7a424aaa
 product_names = csv_data["product"] #> from dataframe, list only the product name
 #print(product_names)
@@ -36,6 +38,24 @@ unique_product_names = product_names.unique()
 #print(type(unique_product_names))
 #> this is  'numpy.ndarray' > google how to convert to a list
 unique_product_names = unique_product_names.tolist() # convert numpy.ndarray to list
+
+#Now that we have unique products, find total sales per product
+
+top_sellers = [] #> empty list so that we can customize
+
+#... adapted from https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/master/exercises/sales-reporting/pandas_solution_further_alt.py
+for product_name in unique_product_names:
+    #define matching_rows as any duplicate
+    matching_rows = csv_data[csv_data["product"] == product_name]
+    #print(type(matching_rows))
+    #> this is a 'pandas.core.frame.DataFrame'>
+    product_monthly_sales = matching_rows["sales price"].sum()
+    #now adding in product name and monthly sales
+    top_sellers.append(
+        {"name": product_name, "monthly_sales": product_monthly_sales})
+    print(top_sellers)
+
+
 
 
 
