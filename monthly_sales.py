@@ -5,6 +5,7 @@ import operator
 import csv
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mtick
 
 #
 # INFO INPUTS
@@ -140,8 +141,20 @@ for d in top_sellers:
     sorted_products.append(d["name"])
     sorted_sales.append(d["monthly_sales"])
 
-plt.bar(sorted_products, sorted_sales)
+
+sorted_products.reverse()
+sorted_sales.reverse()
+
+# axis formqtting adapted from https://stackoverflow.com/questions/38152356/matplotlib-dollar-sign-with-thousands-comma-tick-labels
+fig, ax = plt.subplots()
+fmt = '${x:,.2f}'
+tick = mtick.StrMethodFormatter(fmt)
+ax.xaxis.set_major_formatter(tick) 
+plt.xticks(rotation=25)
+
+ax.barh(sorted_products, sorted_sales) # from https://matplotlib.org/gallery/lines_bars_and_markers/barh.html#sphx-glr-gallery-lines-bars-and-markers-barh-py
 plt.title(chart_title)
-plt.xlabel("Product")
-plt.ylabel("Monthly Sales (USD)")
+plt.ylabel("Product")
+plt.xlabel("Monthly Sales (USD)")
+plt.tight_layout() # from https://georgetown-opim-py.slack.com/archives/CFZDKNKA4/p1549983772015200
 plt.show()
