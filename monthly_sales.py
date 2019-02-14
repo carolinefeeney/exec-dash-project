@@ -3,23 +3,52 @@
 import os
 import operator
 import csv
-import pandas
+import pandas as pd
 import matplotlib.pyplot as plt
-
 
 #
 # INFO INPUTS
 #
 
 # ... USD adapted from https://github.com/s2t2/shopping-cart-screencast/blob/30c2a2873a796b8766e9b9ae57a2764725ccc793/shopping_cart.py#L56-L59
-def to_usd(my_price):
-    return "${0:,.2f}".format(my_price)
+def to_usd(any_price):
+    return "${0:,.2f}".format(any_price)
 
-csv_filename = "sales-201710.csv" #TODO allow user to specify with FILEPATH
-# ... adapted from: https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/master/notes/python/modules/os.md#file-operations
-csv_filepath = os.path.join(os.path.dirname(__file__), "data", csv_filename)  #> reference a file in the data directory
-# ... this and other pandas operations adapted from: https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/master/notes/python/packages/pandas.md
-csv_data = csv_data = pandas.read_csv(csv_filepath) #> read CSV into pandas dataframe object[df object is now "csv_data"]
+# # ... adapted from: https://stackoverflow.com/questions/9234560/find-all-csv-files-in-a-directory-using-python/12280052
+# import glob
+# path = '/Users/carolinefeeney/Desktop/exec-dash-project/data'
+# extension = 'csv'
+# os.chdir(path)
+# monthly_sales_data = [i for i in glob.glob('*.{}'.format(extension))]
+
+# adapted from 
+path = os.path.join("data")
+directory = os.listdir(path)
+
+print("-----------------------")
+print("THE FOLLOWING ARE THE MONTHLY SALES DATA FILES: ")
+
+x = 1
+for d in directory:
+    print("  " + str(x) + ") " + d)
+    x = x + 1
+
+# with help from https://georgetown-opim-py.slack.com/messages/DFA4T5HGB/
+chosen_file = []
+while True:
+    user_input = input("PLEASE CHOOSE A FILE NAME TO ANALYZE as 'sales-YYYYMM.csv' : ")
+    if user_input in directory:
+        chosen_file.append(user_input)
+        break
+    else:
+        print("Oops! Try filename not found, try again.")
+        continue
+
+#csv_filename = "sales-201802.csv"
+csv_filename = user_input
+csv_filepath = os.path.join("data", csv_filename)
+csv_data = pd.read_csv(csv_filepath) #> read CSV into pandas dataframe object[df object is now "csv_data"]
+
 
 #
 # CALCULATIONS
@@ -70,8 +99,18 @@ top_sellers = sorted(top_sellers, key=operator.itemgetter("monthly_sales"), reve
 # OUTPUTS
 #
 
+#  dates adapted from: https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/master/exercises/sales-reporting/pandas_explore.py
+def month_lookup(month):
+	year_month={'01':'January','02':'February','03':'March','04':'April',
+	'05':'May','06':'June','07':'July','08':'August','09':'September','10':'October',
+	'11':'November', '12':'December'}
+	return year_month[month]
+
+month = month_lookup(csv_filename[-6:-4]) 
+year = int(csv_filename[6:10]) 
+
 print("-----------------------")
-print("MONTH: March 2018") #TODO get month and year FROM THE FILE
+print(("MONTH: ") + str(month) + str(year))
 
 print("-----------------------")
 print("CRUNCHING THE DATA...")
@@ -86,13 +125,13 @@ print("-----------------------")
 print(f"TOTAL MONTHLY SALES: {to_usd(monthly_total)}")
 
 
-
 print("-----------------------")
 print("TOP SELLING PRODUCTS:")
 
 #...  from https://github.com/s2t2/exec-dash-starter-py/commit/1bf69cc8c8c4d26d8aa265b4fc984cd01ad894ff
 rank = 1 #we are defining a variable here to use in our list printing
 for d in top_sellers:
+    #breakpoint()
     print("  " + str(rank) + ") " + d["name"] + ": " +  to_usd(d["monthly_sales"]))
     rank = rank + 1
 
@@ -109,8 +148,11 @@ for d in top_sellers:
     sorted_products.append(d["name"])
     sorted_sales.append(d["monthly_sales"])
 
+
+#TODO format this so that maybe horizontal bar chart
 plt.bar(sorted_products, sorted_sales)
 plt.title(chart_title)
 plt.xlabel("Product")
 plt.ylabel("Monthly Sales (USD)")
 plt.show()
+plt.tight_layout() # from https://georgetown-opim-py.slack.com/messages/CFZDKNKA4/
